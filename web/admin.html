@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShopBot Admin</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><h1>🛠 ShopBot Admin</h1><nav><a href="index.html">← Storefront</a></nav></header>
+<div class="admin-wrap">
+  <div id="login" class="row">
+    <input id="tok" type="password" placeholder="Admin token" style="min-width:260px">
+    <button onclick="login()">Sign in</button>
+    <span id="loginErr" style="color:var(--bad)"></span>
+  </div>
+
+  <div id="app" style="display:none">
+    <div class="tabs" id="tabs"></div>
+    <div id="view"></div>
+  </div>
+</div>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

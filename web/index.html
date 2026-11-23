@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloom &amp; Brew – Coffee, Tea &amp; Gear</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <h1>☕ Bloom &amp; Brew</h1>
+  <nav><a href="#shop">Shop</a><a href="#orders">My orders</a><a href="#memory">My profile</a><a href="admin.html">Admin</a></nav>
+</header>
+
+<div class="hero">
+  <h2>Great coffee, picked for you.</h2>
+  <p>Chat with ShopBot, our AI sales assistant. It recommends products, checks live stock, remembers your tastes and places orders (always after asking you first).</p>
+  <button onclick="openChat()">💬 Ask ShopBot</button>
+</div>
+
+<main>
+  <section id="shop">
+    <div class="chips" id="chips"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="panel" id="orders">
+    <h2>My orders</h2>
+    <div id="ordersBox"></div>
+  </section>
+
+  <section class="panel" id="memory">
+    <h2>My profile</h2>
+    <p style="color:var(--muted)">You are <code class="small" id="uid"></code>. ShopBot remembers these things about you across all your conversations:</p>
+    <div class="mem" id="memBox"></div>
+    <div class="row" style="margin-top:14px">
+      <button class="ghost" onclick="forget()">Forget everything</button>
+      <button class="ghost" onclick="switchUser()">Switch account…</button>
+      <button class="ghost" onclick="newUser()">Start as a brand-new customer</button>
+    </div>
+  </section>
+</main>
+<footer>Demo store · prices in USD · free shipping over $50</footer>
+
+<button id="fab" onclick="toggleChat()" aria-label="Open chat">💬</button>
+<div id="chat" role="dialog" aria-label="ShopBot chat">
+  <header><b>ShopBot</b><button onclick="newThread()" title="Start a fresh conversation (long-term memory is kept)">New chat</button><button onclick="toggleChat()">✕</button></header>
+  <div id="msgs"></div>
+  <div id="suggest"></div>
+  <form id="chatform"><input id="msgIn" placeholder="Ask about products, orders…" autocomplete="off" maxlength="1500"><button id="sendBtn">Send</button></form>
+</div>
+
+<script src="config.js"></script>
+<script src="shop.js"></script>
+</body>
+</html>
