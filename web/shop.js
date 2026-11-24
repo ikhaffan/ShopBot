@@ -8,17 +8,6 @@ let userId = localStorage.getItem("shopbot_user_id");
 if (!userId) { userId = "user_" + rid(); localStorage.setItem("shopbot_user_id", userId); }
 let threadId = localStorage.getItem("shopbot_thread_id");
 if (!threadId) { threadId = "thread_" + rid(); localStorage.setItem("shopbot_thread_id", threadId); }
-// The id works like a password (it unlocks this customer's orders/memory), so it is masked by default.
-let idShown = false;
-const maskId = (s) => s.slice(0, 5) + "•".repeat(12);
-function renderId() { $("uid").textContent = idShown ? userId : maskId(userId); $("idToggle").textContent = idShown ? "Hide" : "Show"; }
-function toggleId() { idShown = !idShown; renderId(); }
-async function copyId() {
-  try { await navigator.clipboard.writeText(userId); $("idCopy").textContent = "Copied!"; }
-  catch { prompt("Copy your customer ID:", userId); }
-  setTimeout(() => ($("idCopy").textContent = "Copy"), 1500);
-}
-renderId();
 
 async function api(path, opts) {
   const r = await fetch(API + path, opts);
@@ -81,10 +70,6 @@ async function loadMemory() {
   m.facts.forEach((f) => { const s = document.createElement("span"); s.textContent = f; $("memBox").appendChild(s); });
 }
 async function forget() { if (confirm("Delete everything ShopBot remembers about you?")) { await api("/memory?user_id=" + encodeURIComponent(userId), { method: "DELETE" }); loadMemory(); } }
-function switchUser() {
-  const v = prompt("Enter an existing customer id:", userId);
-  if (v && /^[A-Za-z0-9_.:@-]{1,100}$/.test(v)) { localStorage.setItem("shopbot_user_id", v); newThreadId(); location.reload(); }
-}
 function newUser() { localStorage.setItem("shopbot_user_id", "user_" + rid()); newThreadId(); location.reload(); }
 function newThreadId() { localStorage.setItem("shopbot_thread_id", "thread_" + rid()); }
 
