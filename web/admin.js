@@ -1,4 +1,4 @@
-const API = window.SHOPBOT_API;
+const API = window.SHOPBOT_API.replace(/\/+$/, "");
 const $ = (id) => document.getElementById(id);
 const money = (c) => "$" + (c / 100).toFixed(2);
 let token = sessionStorage.getItem("shopbot_admin") || "";

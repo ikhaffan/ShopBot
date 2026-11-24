@@ -1,4 +1,4 @@
-const API = window.SHOPBOT_API;
+const API = window.SHOPBOT_API.replace(/\/+$/, "");
 const $ = (id) => document.getElementById(id);
 const money = (c) => "$" + (c / 100).toFixed(2);
 const rid = () => (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, "").slice(0, 12) : Math.random().toString(36).slice(2, 14));
