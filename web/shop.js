@@ -17,6 +17,7 @@ async function api(path, opts) {
 }
 
 // ---- catalogue
+const EMOJI = { coffee: "☕", tea: "🍵", equipment: "🫖", mugs: "🥛" };
 let category = "";
 async function loadProducts() {
   const items = await api("/products" + (category ? "?category=" + encodeURIComponent(category) : ""));
@@ -35,7 +36,14 @@ async function loadProducts() {
     d.className = "card";
     const tag = p.stock === 0 ? '<span class="tag out">Sold out</span>' : p.stock <= 3 ? `<span class="tag low">Only ${p.stock} left</span>` : '<span class="tag ok">In stock</span>';
     d.innerHTML = `<img loading="lazy" alt=""><div class="b"><h3></h3><p></p><div>${tag}</div><div class="price">${money(p.price_cents)}</div><button class="ghost">Ask ShopBot about this</button></div>`;
-    d.querySelector("img").src = p.image_url || "";
+    const img = d.querySelector("img");
+    const ph = () => {
+      const f = document.createElement("div");
+      f.className = "ph"; f.textContent = EMOJI[p.category] || "🛍️";
+      img.replaceWith(f);
+    };
+    img.onerror = ph;
+    if (p.image_url) img.src = p.image_url; else ph();
     d.querySelector("h3").textContent = p.name;
     d.querySelector("p").textContent = p.description;
     d.querySelector("button").onclick = () => { openChat(); send(`Tell me about "${p.name}" (id ${p.id}). Is it a good fit for me?`); };
