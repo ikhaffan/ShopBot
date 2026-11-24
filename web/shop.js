@@ -1,14 +1,24 @@
 const API = window.SHOPBOT_API.replace(/\/+$/, "");
 const $ = (id) => document.getElementById(id);
 const money = (c) => "$" + (c / 100).toFixed(2);
-const rid = () => (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, "").slice(0, 12) : Math.random().toString(36).slice(2, 14));
+const rid = () => (crypto.randomUUID ? crypto.randomUUID().replace(/-/g, "") : Array.from(crypto.getRandomValues(new Uint8Array(16)), (b) => b.toString(16).padStart(2, "0")).join(""));
 
 // ---- identity: user_id (long-term memory + data ownership) and thread_id (one conversation)
 let userId = localStorage.getItem("shopbot_user_id");
 if (!userId) { userId = "user_" + rid(); localStorage.setItem("shopbot_user_id", userId); }
 let threadId = localStorage.getItem("shopbot_thread_id");
 if (!threadId) { threadId = "thread_" + rid(); localStorage.setItem("shopbot_thread_id", threadId); }
-$("uid").textContent = userId;
+// The id works like a password (it unlocks this customer's orders/memory), so it is masked by default.
+let idShown = false;
+const maskId = (s) => s.slice(0, 5) + "•".repeat(12);
+function renderId() { $("uid").textContent = idShown ? userId : maskId(userId); $("idToggle").textContent = idShown ? "Hide" : "Show"; }
+function toggleId() { idShown = !idShown; renderId(); }
+async function copyId() {
+  try { await navigator.clipboard.writeText(userId); $("idCopy").textContent = "Copied!"; }
+  catch { prompt("Copy your customer ID:", userId); }
+  setTimeout(() => ($("idCopy").textContent = "Copy"), 1500);
+}
+renderId();
 
 async function api(path, opts) {
   const r = await fetch(API + path, opts);

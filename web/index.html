@@ -31,7 +31,10 @@
 
   <section class="panel" id="memory">
     <h2>My profile</h2>
-    <p style="color:var(--muted)">You are <code class="small" id="uid"></code>. ShopBot remembers these things about you across all your conversations:</p>
+    <p style="color:var(--muted)">Your private customer ID is <code class="small" id="uid"></code>
+      <button class="ghost" style="padding:2px 10px;font-size:13px" onclick="toggleId()" id="idToggle">Show</button>
+      <button class="ghost" style="padding:2px 10px;font-size:13px" onclick="copyId()" id="idCopy">Copy</button><br>
+      Keep it private: it gives access to your orders and memory. ShopBot remembers these things about you across all your conversations:</p>
     <div class="mem" id="memBox"></div>
     <div class="row" style="margin-top:14px">
       <button class="ghost" onclick="forget()">Forget everything</button>
